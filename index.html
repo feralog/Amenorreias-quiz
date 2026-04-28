@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Amenorreias</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#f0f4f8;min-height:100vh;display:flex;flex-direction:column}
+header{background:linear-gradient(135deg,#1e3a5f,#2c5282);color:white;padding:16px 24px}
+header h1{font-size:18px;font-weight:700}
+header p{font-size:12px;opacity:.75;margin-top:3px}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px;flex:1}
+/* tela inicial */
+#start-screen{background:white;border-radius:14px;padding:36px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+#start-screen h2{font-size:22px;color:#1e3a5f;margin-bottom:8px}
+#start-screen p{color:#64748b;font-size:14px;margin-bottom:28px}
+.btn-start{background:#2563eb;color:white;border:none;padding:13px 36px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s}
+.btn-start:hover{background:#1d4ed8}
+/* progresso */
+.progress-bar{background:#e2e8f0;border-radius:99px;height:7px;margin-bottom:20px}
+.progress-fill{background:#2563eb;height:7px;border-radius:99px;transition:width .3s}
+.progress-label{font-size:12px;color:#64748b;margin-bottom:8px}
+/* card */
+.card{background:white;border-radius:14px;padding:28px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.question-text{font-size:15px;font-weight:600;color:#1e3a5f;line-height:1.6;margin-bottom:20px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{padding:12px 16px;border-radius:9px;border:2px solid #e2e8f0;cursor:pointer;font-size:13px;transition:all .15s;text-align:left}
+.opt:hover:not(.disabled){border-color:#2563eb;background:#eff6ff}
+.opt.correct{border-color:#16a34a;background:#f0fdf4;color:#15803d;font-weight:700}
+.opt.wrong{border-color:#dc2626;background:#fef2f2;color:#dc2626}
+.opt.disabled{cursor:default}
+.explanation{background:#f8fafc;border-left:4px solid #2563eb;padding:12px 14px;margin-top:16px;font-size:13px;color:#374151;border-radius:0 8px 8px 0;line-height:1.7}
+.btn-next{margin-top:18px;background:#2563eb;color:white;border:none;padding:11px 28px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s}
+.btn-next:hover{background:#1d4ed8}
+/* resultado */
+#result-screen{background:white;border-radius:14px;padding:36px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+#result-screen h2{font-size:22px;color:#1e3a5f;margin-bottom:6px}
+.score-big{font-size:52px;font-weight:800;color:#2563eb;margin:16px 0}
+.score-detail{color:#64748b;font-size:14px;margin-bottom:24px}
+.btn-retry{background:#16a34a;color:white;border:none;padding:12px 30px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer}
+.btn-retry:hover{background:#15803d}
+</style>
+</head>
+<body>
+<header>
+  <h1>Quiz — Amenorreias</h1>
+  <p>Saúde da Mulher · Ginecologia</p>
+</header>
+<div class="wrap">
+  <div id="start-screen">
+    <h2>Amenorreias</h2>
+    <p>20 questões sobre classificação, etiologia, propedêutica e síndromes específicas</p>
+    <button class="btn-start" onclick="startQuiz()">Começar</button>
+  </div>
+  <div id="quiz-screen" style="display:none">
+    <div class="progress-label" id="prog-label"></div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+    <div class="card" id="card"></div>
+  </div>
+  <div id="result-screen" style="display:none">
+    <h2>Resultado Final</h2>
+    <div class="score-big" id="score-pct"></div>
+    <div class="score-detail" id="score-detail"></div>
+    <button class="btn-retry" onclick="location.reload()">Tentar novamente</button>
+  </div>
+</div>
+<script>
+const rawQuestions = [
+  {
+    question: "Qual é o PRIMEIRO exame a ser solicitado em toda paciente com queixa de amenorreia?",
+    options: ["β-hCG sérico para excluir gravidez","FSH para avaliar função gonadal","Prolactina sérica","TSH e T4 livre","Ultrassonografia pélvica"],
+    correctIndex: 0,
+    explanation: "Gravidez é a causa mais comum de amenorreia secundária e deve ser descartada antes de qualquer outra investigação, sendo o β-hCG o primeiro exame solicitado."
+  },
+  {
+    question: "Menina de 14 anos com desenvolvimento mamário iniciado aos 10 anos, sem menstruação até o momento. Qual critério define amenorreia primária neste caso?",
+    options: ["Menarca não ocorreu 5 anos após o início do desenvolvimento mamário antes dos 10 anos","Ausência de menstruação aos 14 anos com caracteres sexuais presentes","Ausência de caracteres sexuais secundários aos 13 anos","Ausência de menstruação por 6 meses","Ausência de menstruação com FSH elevado"],
+    correctIndex: 0,
+    explanation: "O critério se aplica: menarca não ocorreu 5 anos após início das mamas quando a telarca foi antes dos 10 anos. Se a telarca ocorreu aos 9 anos, a menarca deveria ter ocorrido até os 14 anos."
+  },
+  {
+    question: "Qual IMC mínimo é necessário para que a menstruação ocorra?",
+    options: ["18 kg/m²","20 kg/m²","16 kg/m²","22 kg/m²","14 kg/m²"],
+    correctIndex: 0,
+    explanation: "É necessário IMC ≥ 18 (correspondente a pelo menos 18% de massa corpórea) para que o eixo hipotálamo-hipofisário-ovariano funcione adequadamente e ocorra a menstruação."
+  },
+  {
+    question: "Paciente de 16 anos, sem menstruação, com pescoço alado, baixa estatura, cúbito valgus e malformação cardíaca (coarctação de aorta). FSH elevado. Qual o diagnóstico?",
+    options: ["Síndrome de Turner (45,X0)","Síndrome de Rokitansky","Síndrome de Kallmann","Síndrome de Morris","Hipogonadismo hipogonadotrófico"],
+    correctIndex: 0,
+    explanation: "A Síndrome de Turner (45,X0) é a disgenesia gonadal mais comum, caracterizada por baixa estatura, pescoço alado, cúbito valgus, anomalias cardíacas e renais, FSH elevado e amenorreia primária."
+  },
+  {
+    question: "Adolescente de 17 anos, fenótipo feminino, sem menstruação, mamas bem desenvolvidas, pelos pubianos e axilares ausentes. Exame revela vagina em fundo cego, ausência de útero. Cariótipo: 46,XY. Testosterona em nível masculino. Diagnóstico?",
+    options: ["Síndrome de Morris (insensibilidade androgênica completa)","Síndrome de Rokitansky","Síndrome de Turner","Síndrome de Kallmann","Síndrome de Asherman"],
+    correctIndex: 0,
+    explanation: "A Síndrome de Morris (46,XY) apresenta fenótipo feminino com mamas desenvolvidas (conversão periférica), ausência de pelos pubianos/axilares, sem útero (AMH produzido pelos testículos causa regressão mülleriana) e testosterona em nível masculino."
+  },
+  {
+    question: "Qual a segunda causa mais comum de amenorreia primária, caracterizada por cariótipo 46,XX, desenvolvimento puberal normal, ausência de útero e testosterona em nível feminino?",
+    options: ["Síndrome de Rokitansky (agenesia mülleriana)","Síndrome de Morris","Síndrome de Turner","Hímen imperfurado","Síndrome de Asherman"],
+    correctIndex: 0,
+    explanation: "A Síndrome de Rokitansky (agenesia mülleriana) é a segunda causa de amenorreia primária: cariótipo 46,XX, ovários funcionantes (mamas e pelos normais), ausência de útero e vagina, testosterona feminina. Mutação no gene codificador do HAM."
+  },
+  {
+    question: "Adolescente com amenorreia primária, dor abdominal cíclica e abaulamento azulado no introito vaginal. Diagnóstico?",
+    options: ["Hímen imperfurado","Septo vaginal transverso","Síndrome de Asherman","Síndrome de Rokitansky","Atresia vaginal"],
+    correctIndex: 0,
+    explanation: "O hímen imperfurado apresenta a tríade clássica: amenorreia primária + dor abdominal cíclica + abaulamento azulado (hematocolpo) no introito vaginal. É a causa mais comum de obstrução do trato genital feminino."
+  },
+  {
+    question: "Paciente com amenorreia secundária após curetagem uterina. Histeroscopia revela fibrose dentro da cavidade uterina. Diagnóstico?",
+    options: ["Síndrome de Asherman (sinéquias uterinas)","Síndrome de Rokitansky","Miomatose submucosa","Pólipos endometriais","Síndrome de Sheehan"],
+    correctIndex: 0,
+    explanation: "A Síndrome de Asherman é caracterizada por sinéquias uterinas após agressão ao endométrio (curetagem, DIP, tuberculose). A fibrose impede o sangramento. Diagnóstico padrão-ouro: histeroscopia."
+  },
+  {
+    question: "Mulher no puerpério imediato após parto com hemorragia grave por atonia uterina. Apresenta agalactia, letargia, perda de pelos pubianos e axilares. Diagnóstico?",
+    options: ["Síndrome de Sheehan","Hiperprolactinemia por adenoma","Síndrome de Asherman","Síndrome de Kallmann","Hipertireoidismo"],
+    correctIndex: 0,
+    explanation: "A Síndrome de Sheehan é causada por necrose hipofisária isquêmica após hemorragia grave pós-parto. Inicialmente sem prolactina (agalactia) por hipófise 'vazia', seguida de pan-hipopituitarismo com queda de pelos e letargia."
+  },
+  {
+    question: "Jovem com amenorreia primária, anosmia e hipogonadismo hipogonadotrófico (FSH e LH baixos). Diagnóstico?",
+    options: ["Síndrome de Kallmann","Síndrome de Sheehan","Amenorreia hipotalâmica funcional","Síndrome de Turner","Adenoma hipofisário"],
+    correctIndex: 0,
+    explanation: "A Síndrome de Kallmann é uma doença congênita com deficiência de GnRH por falha na migração neuronal associada a anosmia. Resulta em hipogonadismo hipogonadotrófico (FSH e LH baixos)."
+  },
+  {
+    question: "Atleta de alta performance com amenorreia há 8 meses. Qual o mecanismo fisiopatológico envolvido?",
+    options: ["Aumento de opióides endógenos e redução de leptina suprimindo GnRH","Falência ovariana primária por exercício","Aumento de prolactina pelo estresse físico","Hipotiroidismo funcional induzido por exercício","Hiperplasia adrenal por ACTH elevado"],
+    correctIndex: 0,
+    explanation: "Na amenorreia hipotalâmica funcional por exercício, o aumento de opióides endógenos e a redução de leptina (por baixo percentual de gordura corporal) suprimem o GnRH hipotalâmico, levando a ciclos anovulatórios e amenorreia."
+  },
+  {
+    question: "Paciente com galactorreia e amenorreia. Qual exame deve ser solicitado para investigar a etiologia mais provável?",
+    options: ["Prolactina sérica e RM de sela túrcica","FSH e cariótipo","β-hCG e TSH","Testosterona e USG pélvica","Estradiol e FSH"],
+    correctIndex: 0,
+    explanation: "Galactorreia associada a amenorreia sugere hiperprolactinemia (adenoma hipofisário ou causa farmacológica). Solicitar prolactina sérica e, se elevada, RM de sela túrcica para avaliar adenoma."
+  },
+  {
+    question: "Qual das seguintes condições é classificada no Compartimento I de Speroff (trato genital/útero)?",
+    options: ["Síndrome de Asherman","Síndrome de Turner","Síndrome de Sheehan","Síndrome de Kallmann","Hiperprolactinemia"],
+    correctIndex: 0,
+    explanation: "O Compartimento I engloba desordens do trato genital e útero: hímen imperfurado, septo vaginal, síndrome de Asherman, síndrome de Rokitansky e síndrome de Morris. Os compartimentos II, III e IV correspondem a ovários, hipófise e hipotálamo, respectivamente."
+  },
+  {
+    question: "Em qual situação clínica é OBRIGATÓRIA a solicitação de cariótipo na investigação de amenorreia?",
+    options: ["Amenorreia hipergonadotrófica (FSH elevado) em mulher com menos de 30 anos","Amenorreia secundária em mulher acima de 40 anos","Amenorreia por hiperprolactinemia confirmada","Amenorreia hipotalâmica funcional","Amenorreia associada a hipotiroidismo"],
+    correctIndex: 0,
+    explanation: "O cariótipo é obrigatório nas amenorreias hipergonadotróficas (FSH elevado) em mulheres com menos de 30 anos, pois pode haver componente Y (risco de gonadoblastoma), além de casos de ausência de útero com FSH normal (investigar Sd. Morris — testosterona)."
+  },
+  {
+    question: "Qual fármaco pode causar amenorreia secundária por mecanismo de hiperprolactinemia farmacológica?",
+    options: ["Metoclopramida","Bromocriptina","Cabergolina","Levotiroxina","Estradiol"],
+    correctIndex: 0,
+    explanation: "A metoclopramida é antagonista dopaminérgico — bloqueia o receptor D2 hipofisário, reduzindo a inibição dopaminérgica sobre a lactotrofa, elevando a prolactina. Outros: antipsicóticos, antidepressivos tricíclicos, domperidona."
+  },
+  {
+    question: "No teste de progesterona para investigação de amenorreia, a paciente não sangra mesmo após a pílula combinada. O que isso sugere?",
+    options: ["Anomalia anatômica uterina (Compartimento I)","Falência ovariana (Compartimento II)","Tumor hipofisário (Compartimento III)","Disfunção hipotalâmica (Compartimento IV)","Hipotiroidismo"],
+    correctIndex: 0,
+    explanation: "No algoritmo: progesterona → não sangra → pílula combinada (atua no SNC) → se sangrar = problema central (dosear FSH); se não sangrar = anomalia uterina (Compartimento I — endométrio não responsivo)."
+  },
+  {
+    question: "Consequência tardia mais grave da amenorreia prolongada por hipoestrogenismo em jovem:",
+    options: ["Osteoporose e aumento de risco cardiovascular","Câncer de endométrio","Galactorreia irreversível","Trombose venosa profunda","Hipertensão arterial"],
+    correctIndex: 0,
+    explanation: "O hipoestrogenismo crônico na amenorreia causa perda de massa óssea (osteoporose) e aumenta o risco cardiovascular. O câncer de endométrio é consequência do excesso de estrogênio sem progesterona (como na SOP/anovulação crônica), não do hipoestrogenismo."
+  },
+  {
+    question: "Paciente com cariótipo 46,XY, fenótipo feminino, amenorreia primária, mamas desenvolvidas mas pelos pubianos escassos. Testosterona em nível masculino. Qual o risco que justifica gonadectomia após puberdade?",
+    options: ["Transformação maligna dos testículos (5–10% de chance)","Osteoporose precoce","Virilização pós-puberal","Doença autoimune","Câncer de endométrio"],
+    correctIndex: 0,
+    explanation: "Na Síndrome de Morris (insensibilidade androgênica), os testículos intra-abdominais têm risco de malignização de 5–10% (gonadoblastoma, disgerminoma). Por isso a gonadectomia é recomendada após a puberdade (16–18 anos), quando o desenvolvimento sexual já foi completado pelo estrogênio."
+  },
+  {
+    question: "Qual anomalia cardíaca é mais associada à Síndrome de Turner e representa maior risco de mortalidade?",
+    options: ["Coarctação da aorta e válvula aórtica bicúspide com risco de aneurisma","Comunicação interatrial","Tetralogia de Fallot","Estenose pulmonar","Transposição das grandes artérias"],
+    correctIndex: 0,
+    explanation: "A Síndrome de Turner tem alta prevalência de coarctação de aorta e válvula aórtica bicúspide, com risco de formação de aneurisma e rotura (mortalidade materna ~2% em gestações). Toda paciente com Turner deve ter ecocardiograma e acompanhamento cardiológico."
+  },
+  {
+    question: "Qual é a diferença fundamental entre Síndrome de Rokitansky e Síndrome de Morris no que se refere ao cariótipo e à testosterona?",
+    options: ["Rokitansky: 46,XX com testosterona feminina normal; Morris: 46,XY com testosterona masculina elevada","Rokitansky: 46,XY com testosterona feminina; Morris: 46,XX com testosterona masculina","Ambas têm 46,XX mas diferem na testosterona","Ambas têm 46,XY com testosterona em nível feminino","Rokitansky: 45,X0; Morris: 46,XY"],
+    correctIndex: 0,
+    explanation: "Esta distinção é fundamental: Rokitansky tem cariótipo feminino (46,XX) com testosterona normal para mulher — ovários funcionam, mamas e pelos normais, útero ausente por mutação mülleriana. Morris tem cariótipo masculino (46,XY) com testosterona masculina elevada, mas receptor androgênico defeituoso — fenótipo feminino, pelos escassos, sem útero."
+  }
+];
+
+function shuffleQuestion(q) {
+  const correct = q.options[q.correctIndex];
+  const shuffled = [...q.options];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return { ...q, options: shuffled, correctIndex: shuffled.indexOf(correct) };
+}
+
+let questions, current, score, answered;
+
+function startQuiz() {
+  questions = rawQuestions.map(shuffleQuestion).sort(() => Math.random() - 0.5);
+  current = 0; score = 0; answered = false;
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[current];
+  const pct = (current / questions.length) * 100;
+  document.getElementById('prog-label').textContent = `Questão ${current + 1} de ${questions.length}`;
+  document.getElementById('prog-fill').style.width = pct + '%';
+
+  let html = `<div class="question-text">${q.question}</div><div class="options">`;
+  q.options.forEach((opt, i) => {
+    html += `<button class="opt" onclick="answer(${i})">${opt}</button>`;
+  });
+  html += '</div>';
+  document.getElementById('card').innerHTML = html;
+}
+
+function answer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = questions[current];
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => o.classList.add('disabled'));
+  if (idx === q.correctIndex) {
+    opts[idx].classList.add('correct');
+    score++;
+  } else {
+    opts[idx].classList.add('wrong');
+    opts[q.correctIndex].classList.add('correct');
+  }
+  const card = document.getElementById('card');
+  card.innerHTML += `<div class="explanation">${q.explanation}</div>
+    <button class="btn-next" onclick="next()">${current + 1 < questions.length ? 'Próxima questão' : 'Ver resultado'}</button>`;
+}
+
+function next() {
+  current++;
+  if (current < questions.length) {
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  const r = document.getElementById('result-screen');
+  r.style.display = 'block';
+  const pct = Math.round((score / questions.length) * 100);
+  document.getElementById('score-pct').textContent = pct + '%';
+  document.getElementById('score-detail').textContent = `${score} acertos · ${questions.length - score} erros · ${questions.length} questões`;
+}
+</script>
+</body>
+</html>
