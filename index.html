@@ -255,13 +255,13 @@
 const rawQuestions = [
   {
     question: "Qual é o PRIMEIRO exame a ser solicitado em toda paciente com queixa de amenorreia?",
-    options: ["β-hCG sérico para excluir gravidez", "FSH para avaliar função gonadal", "Prolactina sérica", "TSH e T4 livre", "Ultrassonografia pélvica"],
+    options: ["β-hCG sérico — para excluir gravidez", "FSH sérico — para excluir falência ovariana", "Prolactina — para excluir hiperprolactinemia", "TSH e T4 livre — para excluir hipotireoidismo", "USG pélvica — para excluir anomalia uterina"],
     correctIndex: 0,
     explanation: "Gravidez é a causa mais comum de amenorreia secundária e deve ser descartada antes de qualquer outra investigação, sendo o β-hCG o primeiro exame solicitado."
   },
   {
     question: "Menina de 14 anos com desenvolvimento mamário iniciado aos 10 anos, sem menstruação até o momento. Qual critério define amenorreia primária neste caso?",
-    options: ["Menarca não ocorreu 5 anos após o início do desenvolvimento mamário antes dos 10 anos", "Ausência de menstruação aos 14 anos com caracteres sexuais presentes", "Ausência de caracteres sexuais secundários aos 13 anos", "Ausência de menstruação por 6 meses", "Ausência de menstruação com FSH elevado"],
+    options: ["Menarca ausente 5 anos após telarca com menos de 10 anos", "Menarca ausente aos 14 anos com caracteres sexuais presentes", "Ausência de caracteres sexuais secundários aos 13 anos", "Menarca ausente por mais de 6 meses sem causa explicada", "FSH elevado em paciente sem menarca e sem puberdade"],
     correctIndex: 0,
     explanation: "O critério se aplica: menarca não ocorreu 5 anos após início das mamas quando a telarca foi antes dos 10 anos. Se a telarca ocorreu aos 9 anos, a menarca deveria ter ocorrido até os 14 anos."
   },
@@ -273,55 +273,55 @@ const rawQuestions = [
   },
   {
     question: "Paciente de 16 anos, sem menstruação, com pescoço alado, baixa estatura, cúbito valgus e malformação cardíaca (coarctação de aorta). FSH elevado. Qual o diagnóstico?",
-    options: ["Síndrome de Turner (45,X0)", "Síndrome de Rokitansky", "Síndrome de Kallmann", "Síndrome de Morris", "Hipogonadismo hipogonadotrófico"],
+    options: ["Síndrome de Turner (45,X0) — disgenesia gonadal", "Síndrome de Rokitansky — agenesia mülleriana", "Síndrome de Kallmann — hipogonadismo com anosmia", "Síndrome de Morris — insensibilidade androgênica", "Hipogonadismo hipogonadotrófico idiopático"],
     correctIndex: 0,
     explanation: "A Síndrome de Turner (45,X0) é a disgenesia gonadal mais comum, caracterizada por baixa estatura, pescoço alado, cúbito valgus, anomalias cardíacas e renais, FSH elevado e amenorreia primária."
   },
   {
     question: "Adolescente de 17 anos, fenótipo feminino, sem menstruação, mamas bem desenvolvidas, pelos pubianos e axilares ausentes. Exame revela vagina em fundo cego, ausência de útero. Cariótipo: 46,XY. Testosterona em nível masculino. Diagnóstico?",
-    options: ["Síndrome de Morris (insensibilidade androgênica completa)", "Síndrome de Rokitansky", "Síndrome de Turner", "Síndrome de Kallmann", "Síndrome de Asherman"],
+    options: ["Síndrome de Morris — insensibilidade androgênica completa", "Síndrome de Rokitansky — agenesia mülleriana, 46,XX", "Síndrome de Turner — disgenesia gonadal 45,X0", "Síndrome de Kallmann — hipogonadismo e anosmia", "Síndrome de Asherman — sinéquias uterinas pós-curetagem"],
     correctIndex: 0,
     explanation: "A Síndrome de Morris (46,XY) apresenta fenótipo feminino com mamas desenvolvidas (conversão periférica), ausência de pelos pubianos/axilares, sem útero (AMH produzido pelos testículos causa regressão mülleriana) e testosterona em nível masculino."
   },
   {
     question: "Qual a segunda causa mais comum de amenorreia primária, caracterizada por cariótipo 46,XX, desenvolvimento puberal normal, ausência de útero e testosterona em nível feminino?",
-    options: ["Síndrome de Rokitansky (agenesia mülleriana)", "Síndrome de Morris", "Síndrome de Turner", "Hímen imperfurado", "Síndrome de Asherman"],
+    options: ["Síndrome de Rokitansky (agenesia mülleriana, 46,XX)", "Síndrome de Morris (insensibilidade androgênica, 46,XY)", "Síndrome de Turner (disgenesia gonadal 45,X0)", "Hímen imperfurado com hematocolpo — causa obstrutiva", "Síndrome de Asherman (sinéquias pós-curetagem uterina)"],
     correctIndex: 0,
     explanation: "A Síndrome de Rokitansky (agenesia mülleriana) é a segunda causa de amenorreia primária: cariótipo 46,XX, ovários funcionantes (mamas e pelos normais), ausência de útero e vagina, testosterona feminina. Mutação no gene codificador do HAM."
   },
   {
     question: "Adolescente com amenorreia primária, dor abdominal cíclica e abaulamento azulado no introito vaginal. Diagnóstico?",
-    options: ["Hímen imperfurado", "Septo vaginal transverso", "Síndrome de Asherman", "Síndrome de Rokitansky", "Atresia vaginal"],
+    options: ["Hímen imperfurado — obstrução no introito vaginal", "Septo vaginal transverso — obstrução intravaginal alta", "Síndrome de Asherman — sinéquias intrauterinas", "Síndrome de Rokitansky — ausência congênita de útero", "Atresia vaginal completa — ausência de estrutura vaginal"],
     correctIndex: 0,
     explanation: "O hímen imperfurado apresenta a tríade clássica: amenorreia primária + dor abdominal cíclica + abaulamento azulado (hematocolpo) no introito vaginal. É a causa mais comum de obstrução do trato genital feminino."
   },
   {
     question: "Paciente com amenorreia secundária após curetagem uterina. Histeroscopia revela fibrose dentro da cavidade uterina. Diagnóstico?",
-    options: ["Síndrome de Asherman (sinéquias uterinas)", "Síndrome de Rokitansky", "Miomatose submucosa", "Pólipos endometriais", "Síndrome de Sheehan"],
+    options: ["Síndrome de Asherman — sinéquias uterinas pós-curetagem", "Síndrome de Rokitansky — agenesia mülleriana congênita", "Miomatose submucosa — distorção da cavidade uterina", "Pólipos endometriais — lesão intracavitária benigna", "Síndrome de Sheehan — necrose hipofisária pós-parto"],
     correctIndex: 0,
     explanation: "A Síndrome de Asherman é caracterizada por sinéquias uterinas após agressão ao endométrio (curetagem, DIP, tuberculose). A fibrose impede o sangramento. Diagnóstico padrão-ouro: histeroscopia."
   },
   {
     question: "Mulher no puerpério imediato após parto com hemorragia grave por atonia uterina. Apresenta agalactia, letargia, perda de pelos pubianos e axilares. Diagnóstico?",
-    options: ["Síndrome de Sheehan", "Hiperprolactinemia por adenoma", "Síndrome de Asherman", "Síndrome de Kallmann", "Hipertireoidismo"],
+    options: ["Síndrome de Sheehan — necrose hipofisária pós-hemorragia", "Hiperprolactinemia — adenoma hipofisário prolactinoma", "Síndrome de Asherman — sinéquias uterinas pós-curetagem", "Síndrome de Kallmann — hipogonadismo hipogonadotrófico", "Hipertireoidismo — excesso de hormônio tireoidiano"],
     correctIndex: 0,
     explanation: "A Síndrome de Sheehan é causada por necrose hipofisária isquêmica após hemorragia grave pós-parto. Inicialmente sem prolactina (agalactia) por hipófise 'vazia', seguida de pan-hipopituitarismo com queda de pelos e letargia."
   },
   {
     question: "Jovem com amenorreia primária, anosmia e hipogonadismo hipogonadotrófico (FSH e LH baixos). Diagnóstico?",
-    options: ["Síndrome de Kallmann", "Síndrome de Sheehan", "Amenorreia hipotalâmica funcional", "Síndrome de Turner", "Adenoma hipofisário"],
+    options: ["Síndrome de Kallmann — hipogonadismo + anosmia", "Síndrome de Sheehan — hipopituitarismo pós-hemorragia", "Amenorreia hipotalâmica funcional — sem causa orgânica", "Síndrome de Turner — disgenesia gonadal 45,X0", "Adenoma hipofisário secretor de prolactina"],
     correctIndex: 0,
     explanation: "A Síndrome de Kallmann é uma doença congênita com deficiência de GnRH por falha na migração neuronal associada a anosmia. Resulta em hipogonadismo hipogonadotrófico (FSH e LH baixos)."
   },
   {
     question: "Atleta de alta performance com amenorreia há 8 meses. Qual o mecanismo fisiopatológico envolvido?",
-    options: ["Aumento de opióides endógenos e redução de leptina suprimindo GnRH", "Falência ovariana primária por exercício", "Aumento de prolactina pelo estresse físico", "Hipotiroidismo funcional induzido por exercício", "Hiperplasia adrenal por ACTH elevado"],
+    options: ["Supressão hipotalâmica por opióides e déficit de leptina", "Falência ovariana primária induzida pelo exercício físico", "Hiperprolactinemia funcional pelo estresse do exercício", "Hipotireoidismo funcional associado ao treinamento intenso", "Hiperplasia adrenal por estimulação crônica de ACTH"],
     correctIndex: 0,
     explanation: "Na amenorreia hipotalâmica funcional por exercício, o aumento de opióides endógenos e a redução de leptina (por baixo percentual de gordura corporal) suprimem o GnRH hipotalâmico, levando a ciclos anovulatórios e amenorreia."
   },
   {
     question: "Paciente com galactorreia e amenorreia. Qual exame deve ser solicitado para investigar a etiologia mais provável?",
-    options: ["Prolactina sérica e RM de sela túrcica", "FSH e cariótipo", "β-hCG e TSH", "Testosterona e USG pélvica", "Estradiol e FSH"],
+    options: ["Prolactina + RM de sela túrcica (adenoma)", "FSH + cariótipo (falência ovariana precoce)", "β-hCG + TSH (gravidez + hipotireoidismo)", "Testosterona + USG pélvica (SOP / Morris)", "Estradiol + FSH (reserva ovariana basal)"],
     correctIndex: 0,
     explanation: "Galactorreia associada a amenorreia sugere hiperprolactinemia (adenoma hipofisário ou causa farmacológica). Solicitar prolactina sérica e, se elevada, RM de sela túrcica para avaliar adenoma."
   },
@@ -333,43 +333,43 @@ const rawQuestions = [
   },
   {
     question: "Em qual situação clínica é OBRIGATÓRIA a solicitação de cariótipo na investigação de amenorreia?",
-    options: ["Amenorreia hipergonadotrófica (FSH elevado) em mulher com menos de 30 anos", "Amenorreia secundária em mulher acima de 40 anos", "Amenorreia por hiperprolactinemia confirmada", "Amenorreia hipotalâmica funcional", "Amenorreia associada a hipotiroidismo"],
+    options: ["Amenorreia hipergonadotrófica em mulher < 30 anos", "Amenorreia secundária em mulher acima de 40 anos", "Amenorreia por hiperprolactinemia laboratorial", "Amenorreia hipotalâmica funcional por exercício", "Amenorreia secundária associada a hipotireoidismo"],
     correctIndex: 0,
     explanation: "O cariótipo é obrigatório nas amenorreias hipergonadotróficas (FSH elevado) em mulheres com menos de 30 anos, pois pode haver componente Y (risco de gonadoblastoma), além de casos de ausência de útero com FSH normal (investigar Sd. Morris — testosterona)."
   },
   {
     question: "Qual fármaco pode causar amenorreia secundária por mecanismo de hiperprolactinemia farmacológica?",
-    options: ["Metoclopramida", "Bromocriptina", "Cabergolina", "Levotiroxina", "Estradiol"],
+    options: ["Metoclopramida — antagonista dopaminérgico", "Bromocriptina — agonista dopaminérgico D2", "Cabergolina — agonista D2 de longa duração", "Levotiroxina — suplementação de T4 livre", "Estradiol — estrogênio exógeno e estimulante"],
     correctIndex: 0,
     explanation: "A metoclopramida é antagonista dopaminérgico — bloqueia o receptor D2 hipofisário, reduzindo a inibição dopaminérgica sobre a lactotrofa, elevando a prolactina. Outros: antipsicóticos, antidepressivos tricíclicos, domperidona."
   },
   {
     question: "No teste de progesterona para investigação de amenorreia, a paciente não sangra mesmo após a pílula combinada. O que isso sugere?",
-    options: ["Anomalia anatômica uterina (Compartimento I)", "Falência ovariana (Compartimento II)", "Tumor hipofisário (Compartimento III)", "Disfunção hipotalâmica (Compartimento IV)", "Hipotiroidismo"],
+    options: ["Síndrome de Asherman — sinéquias após curetagem", "Falência ovariana prematura — depleção precoce", "Adenoma hipofisário secretor de prolactina ativa", "Amenorreia hipotalâmica funcional — sem lesão", "Hipotireoidismo primário com redução de T4"],
     correctIndex: 0,
     explanation: "No algoritmo: progesterona → não sangra → pílula combinada (atua no SNC) → se sangrar = problema central (dosear FSH); se não sangrar = anomalia uterina (Compartimento I — endométrio não responsivo)."
   },
   {
     question: "Consequência tardia mais grave da amenorreia prolongada por hipoestrogenismo em jovem:",
-    options: ["Osteoporose e aumento de risco cardiovascular", "Câncer de endométrio", "Galactorreia irreversível", "Trombose venosa profunda", "Hipertensão arterial"],
+    options: ["Osteoporose e elevação do risco cardiovascular", "Câncer de endométrio por hipoestrogenismo crônico", "Galactorreia irreversível por hiperprolactinemia", "Trombose venosa profunda (TEP/TVP) por êstase", "Hipertensão arterial sistêmica e retenção hídrica"],
     correctIndex: 0,
     explanation: "O hipoestrogenismo crônico na amenorreia causa perda de massa óssea (osteoporose) e aumenta o risco cardiovascular. O câncer de endométrio é consequência do excesso de estrogênio sem progesterona (como na SOP/anovulação crônica), não do hipoestrogenismo."
   },
   {
     question: "Paciente com cariótipo 46,XY, fenótipo feminino, amenorreia primária, mamas desenvolvidas mas pelos pubianos escassos. Testosterona em nível masculino. Qual o risco que justifica gonadectomia após puberdade?",
-    options: ["Transformação maligna dos testículos (5–10% de chance)", "Osteoporose precoce", "Virilização pós-puberal", "Doença autoimune", "Câncer de endométrio"],
+    options: ["Malignização gonadal intra-abdominal — 5 a 10% de risco", "Osteoporose precoce por hipoestrogenismo prolongado", "Virilização pós-puberal por androgênios residuais", "Doença autoimune endócrina associada ao cariótipo XY", "Adenocarcinoma endometrial por exposição estrogênica"],
     correctIndex: 0,
     explanation: "Na Síndrome de Morris (insensibilidade androgênica), os testículos intra-abdominais têm risco de malignização de 5–10% (gonadoblastoma, disgerminoma). Por isso a gonadectomia é recomendada após a puberdade (16–18 anos), quando o desenvolvimento sexual já foi completado pelo estrogênio."
   },
   {
     question: "Qual anomalia cardíaca é mais associada à Síndrome de Turner e representa maior risco de mortalidade?",
-    options: ["Coarctação da aorta e válvula aórtica bicúspide com risco de aneurisma", "Comunicação interatrial", "Tetralogia de Fallot", "Estenose pulmonar", "Transposição das grandes artérias"],
+    options: ["Coarctação de aorta + válvula aórtica bicúspide", "Comunicação interatrial (CIA) com defeito septal", "Tetralogia de Fallot com obstrução ao fluxo pulmonar", "Estenose pulmonar congênita com hipertrofia de VD", "Transposição das grandes artérias com troca ventricular"],
     correctIndex: 0,
     explanation: "A Síndrome de Turner tem alta prevalência de coarctação de aorta e válvula aórtica bicúspide, com risco de formação de aneurisma e rotura (mortalidade materna ~2% em gestações). Toda paciente com Turner deve ter ecocardiograma e acompanhamento cardiológico."
   },
   {
     question: "Qual é a diferença fundamental entre Síndrome de Rokitansky e Síndrome de Morris no que se refere ao cariótipo e à testosterona?",
-    options: ["Rokitansky: 46,XX com testosterona feminina normal; Morris: 46,XY com testosterona masculina elevada", "Rokitansky: 46,XY com testosterona feminina; Morris: 46,XX com testosterona masculina", "Ambas têm 46,XX mas diferem na testosterona", "Ambas têm 46,XY com testosterona em nível feminino", "Rokitansky: 45,X0; Morris: 46,XY"],
+    options: ["Rokitansky: 46,XX, T feminina; Morris: 46,XY, T masculina", "Rokitansky: 46,XY, T feminina; Morris: 46,XX, T masculina", "Rokitansky: 46,XX, T masculina; Morris: 46,XY, T feminina", "Ambas: 46,XY, T masculina, diferindo no fenótipo", "Rokitansky: 45,X0; Morris: 46,XY, T masculina normal"],
     correctIndex: 0,
     explanation: "Esta distinção é fundamental: Rokitansky tem cariótipo feminino (46,XX) com testosterona normal para mulher — ovários funcionam, mamas e pelos normais, útero ausente por mutação mülleriana. Morris tem cariótipo masculino (46,XY) com testosterona masculina elevada, mas receptor androgênico defeituoso — fenótipo feminino, pelos escassos, sem útero."
   }
